@@ -181,10 +181,10 @@ footer strong.footer-title{color:var(--ob-gold);}
   <div class="hero-inner">
     <p class="hero-label">Data Visualisation · Australia · 2025</p>
     <h1>The World Comes to <em>Study</em></h1>
-    <p class="hero-sub">Australia hosts the world's third-highest share of international students per capita. This is the story of who comes, where they come from, what they study, and where they end up.</p>
+    <p class="hero-sub">Australia hosts the world's third-highest share of international students per capita — an industry worth $54 billion and deeply embedded in the national economy, migration system, and cultural identity.</p>
     <div class="hero-stats">
       <div><div class="stat-n">845K</div><div class="stat-l">International students 2025</div></div>
-      <div><div class="stat-n">$55B</div><div class="stat-l">Education export revenue</div></div>
+      <div><div class="stat-n">$54B</div><div class="stat-l">Education export revenue 2024–25</div></div>
       <div><div class="stat-n">#4</div><div class="stat-l">Australia's top export</div></div>
     </div>
   </div>
@@ -206,9 +206,9 @@ footer strong.footer-title{color:var(--ob-gold);}
 
     <div class="grid-2">
       <div class="chart-wrap">
-        <div class="c-title">Education as Australia's 4th-Largest Export in 2024</div>
+        <div class="c-title">Education as Australia's 4th-Largest Export in 2024–25</div>
         <div id="chart-exports"></div>
-        <div class="insight"><strong>Key insight:</strong> Education contributed over AUD $51B to Australia's economy in 2024, ranking as the 4th-largest export. International students pay tuition fees around three times higher than domestic students, making each enrolment a significant economic contribution.</div>
+        <div class="insight"><strong>Key insight:</strong> Education contributed AUD $53.6B to Australia's economy in 2024–25, ranking as the 4th-largest export. International students pay tuition fees around three times higher than domestic students, making each enrolment a significant economic contribution.</div>
       </div>
       <div class="chart-wrap">
         <div class="c-title">Domestic vs. Overseas Student Enrolments between 2015–2024</div>
@@ -365,7 +365,9 @@ footer strong.footer-title{color:var(--ob-gold);}
     <div class="chart-wrap">
       <div class="c-title">What Happens a Decade Later: Education Type to Residency Outcome, 2010–11 Cohort</div>
       <p style="font-size:12px;color:var(--slate);text-align:center;margin-bottom:14px;">Tracking 362,830 international students enrolled in 2010–11 through to 2021–22</p>
-      <div id="chart-sankey"></div>
+      <div style="text-align:center;margin-bottom:8px;"><span class="click-hint">Hover over a flow band to see details</span></div>
+      <div id="chart-sankey" style="position:relative;"></div>
+      <div id="sankey-tip" style="display:none;position:fixed;background:rgba(29,53,87,0.95);color:#F1FAEE;padding:8px 13px;border-radius:5px;font-size:12px;pointer-events:none;z-index:9999;border:1px solid rgba(255,200,87,0.5);line-height:1.8;"></div>
       <div class="caption" style="text-align:right;margin-top:4px;">Built with custom SVG</div>
     </div>
   </div>
@@ -450,8 +452,8 @@ const enrolments=[
 const evts=[{year:2009,s:492043,lbl:'GFC'},{year:2020,s:687031,lbl:'COVID-19'},{year:2024,s:850921,lbl:'All-time high'}];
 
 const exports_=[
-  {c:"Iron Ore",v:124535},{c:"Coal",v:85129},{c:"Natural Gas",v:67459},
-  {c:"Education",v:51518},{c:"Gold",v:35703}
+  {c:"Iron Ore",v:116379},{c:"Coal",v:71306},{c:"Natural Gas",v:64626},
+  {c:"Education",v:53571},{c:"Gold",v:46906}
 ];
 
 const countries=[
@@ -725,7 +727,7 @@ function drawCampusMap(){
     ctx.strokeStyle='rgba(29,53,87,0.3)';ctx.lineWidth=0.7;ctx.stroke();
   });
 
-  const stateCol={NSW:OB_PURPLE,VIC:OB_TEAL,QLD:OB_GOLD,WA:OB_TEAL2,SA:OB_PURPLE,ACT:OB_TEAL,TAS:OB_GOLD,NT:OB_TEAL2,Multi:SL};
+  const stateCol={NSW:'#457B9D',VIC:OB_GOLD,QLD:'#1D3557',WA:'#A8DADC',SA:'#457B9D',ACT:OB_GOLD,TAS:'#1D3557',NT:'#A8DADC',Multi:SL};
   const maxE=campusData.reduce((m,d)=>Math.max(m,d.intl_eftsl),0);
 
   campusData.forEach(d=>{
@@ -835,7 +837,7 @@ vegaEmbed('#chart-trends',{
        x:{field:'year',type:'quantitative',axis:{format:'d',title:'Year',labelColor:SL_DARK,titleColor:SL_DARK,grid:false}},
        y:{field:'s',type:'quantitative',axis:{format:'~s',title:'Number of students',labelColor:SL_DARK,titleColor:SL_DARK,grid:true,gridColor:'rgba(29,53,87,0.08)'}},
        color:{field:'type',type:'nominal',
-         scale:{domain:['Domestic','Overseas'],range:[OB_TEAL2+'99',OB_GOLD]},
+         scale:{domain:['Domestic','Overseas'],range:['#457B9D99',OB_GOLD]},
          legend:{title:null,labelColor:CR_DARK,orient:'bottom-right',offset:10}},
        tooltip:[{field:'year',title:'Year'},{field:'type',title:'Type'},{field:'s',title:'Students',format:','}]
      }},
@@ -1367,7 +1369,7 @@ function renderBubble(filter){
       size:{field:'international',type:'quantitative',scale:{range:[60,900]},
         legend:{title:'International students',labelColor:CR_DARK,titleColor:CR_DARK,symbolFillColor:G}},
       color:{field:'state',type:'nominal',
-        scale:{domain:['VIC','NSW','QLD','SA','WA','ACT'],range:[OB_TEAL,OB_PURPLE,OB_GOLD,OB_TEAL2,OB_PURPLE2,'#7EC8C8']},
+        scale:{domain:['VIC','NSW','QLD','SA','WA','ACT'],range:['#FFC857','#457B9D','#A8DADC','#1D3557','#FFD980','#6B9FBF']},
         legend:{title:'State',labelColor:CR_DARK,titleColor:CR_DARK}},
       opacity:{condition:{test:'datum.hi===true',value:0.92},value:0.1},
       tooltip:[{field:'university',title:'University'},{field:'state',title:'State'},{field:'total',title:'Total students',format:','},{field:'international',title:'International',format:','}]
@@ -1400,9 +1402,9 @@ let go8RevFilter = 'all'; // 'all','intl','domestic'
 // ══ GO8 REVENUE STACKED BAR (Vega-Lite) ══
 const REV_COLORS = {
   'International Student Fees': OB_GOLD,
-  'HECS-HELP (Domestic)':       OB_TEAL,
-  'HELP (Domestic)':            OB_TEAL2,
-  'Domestic Fees':              OB_PURPLE,
+  'HECS-HELP (Domestic)':       '#457B9D',
+  'HELP (Domestic)':            '#1D3557',
+  'Domestic Fees':              '#A8DADC',
   'Other Revenue':              '#C8D0D8'
 };
 
@@ -1789,11 +1791,11 @@ function drawSankey() {
   const IW = W - PAD.l - PAD.r;
   const IH = H - PAD.t - PAD.b;
 
-  const C_HE   = OB_PURPLE;   // purple – Higher Education
-  const C_VET  = OB_TEAL;     // teal – VET
-  const C_LEFT = '#457B9D'; // steel blue – left Australia (was too transparent)
-  const C_PR   = OB_GOLD;     // gold – permanent resident (the key outcome)
-  const C_TEMP = OB_TEAL2;    // deep teal – temporary visa
+  const C_HE   = OB_GOLD;      // gold – Higher Education
+  const C_VET  = '#457B9D';    // steel blue – VET
+  const C_LEFT = '#1D3557';    // dark navy – left Australia
+  const C_PR   = OB_GOLD;      // gold – permanent resident (the key outcome)
+  const C_TEMP = '#A8DADC';    // aqua – temporary visa
 
   // Data: Dept of Education / JSA PLIDA Dec 2024
   // HE 2010-11: 243,640 | VET 2010-11: 119,190
@@ -1850,6 +1852,9 @@ function drawSankey() {
     </linearGradient>`;
   }).join('');
 
+  // Store flow metadata for tooltips
+  const flowMeta = [];
+
   let paths = flows.map((f,i)=>{
     const sn=srcNodes.find(n=>n.id===f.from);
     const tn=tgtNodes[f.to];
@@ -1862,18 +1867,12 @@ function drawSankey() {
     const x1=PAD.l+8, x2=PAD.l+IW-8;
     const cpx=PAD.l+IW/2;
     const path=`M${x1},${sy0} C${cpx},${sy0} ${cpx},${ty0} ${x2},${ty0} L${x2},${ty0+th} C${cpx},${ty0+th} ${cpx},${sy0+sh} ${x1},${sy0+sh} Z`;
-    const pct=f.pctSrc;
-    // Use source-side placement (t=0.12) for thin flows to stay inside band near origin
-    const bandH=Math.min(sh,th);
-    const t = bandH < 20 ? 0.10 : 0.28;
-    const mt=1-t;
-    const lx=PAD.l+8+IW*t;
-    const srcMidY=sy0+sh/2;
-    const tgtMidY=ty0+th/2;
-    const cpMidY=(srcMidY+tgtMidY)/2;
-    const ly=mt*mt*srcMidY+2*mt*t*cpMidY+t*t*tgtMidY;
-    const fs=bandH>20?11:bandH>10?9:8;
-    return `<path d="${path}" fill="url(#sg${i})" opacity="0.85"/>
+    flowMeta.push({
+      idx:i, from:f.from, to:f.to, v:f.v, pct:f.pctSrc,
+      srcLabel: f.from==='HE'?'Higher Education':'VET',
+      tgtLabel: tgtLabel1[f.to]+(tgtLabel2[f.to]?' '+tgtLabel2[f.to]:'')
+    });
+    return `<path class="sankey-path" data-idx="${i}" d="${path}" fill="url(#sg${i})" opacity="0.85" style="cursor:pointer;transition:opacity .15s"/>
       `;
   }).join('');
 
@@ -1904,6 +1903,26 @@ function drawSankey() {
     <defs>${defs}</defs>
     ${paths}${srcSvg}${tgtSvg}
   </svg>`;
+
+  // Tooltip interactivity
+  const tip = document.getElementById('sankey-tip');
+  el.querySelectorAll('.sankey-path').forEach(p=>{
+    p.addEventListener('mouseenter', function(e){
+      const m = flowMeta[+this.dataset.idx];
+      this.style.opacity='1';
+      tip.innerHTML = `<strong style="color:#FFC857">${m.srcLabel} → ${m.tgtLabel}</strong><br>
+        ${m.v.toLocaleString()} students &nbsp;(${m.pct}% of ${m.srcLabel} cohort)`;
+      tip.style.display='block';
+    });
+    p.addEventListener('mousemove', function(e){
+      tip.style.left=(e.clientX+14)+'px';
+      tip.style.top=(e.clientY-10)+'px';
+    });
+    p.addEventListener('mouseleave', function(){
+      this.style.opacity='0.85';
+      tip.style.display='none';
+    });
+  });
 }
 
 
@@ -1918,9 +1937,9 @@ function drawSkillsTarget(){
   // Q: skills gained from studying in Australia
   const stats = [
     {pct:91, label:'Problem-solving skills',          color:OB_GOLD,   r:118},
-    {pct:88, label:'Communication in English',        color:OB_TEAL,   r:97},
-    {pct:84, label:'Teamwork and collaboration',      color:OB_PURPLE, r:76},
-    {pct:79, label:'Technical / professional skills', color:OB_TEAL2,  r:55}
+    {pct:88, label:'Communication in English',        color:'#457B9D',   r:97},
+    {pct:84, label:'Teamwork and collaboration',      color:'#1D3557', r:76},
+    {pct:79, label:'Technical / professional skills', color:'#A8DADC',  r:55}
   ];
 
   let parts = `<svg width="${W}" height="${H}" style="font-family:'DM Sans',sans-serif;overflow:visible">`;
